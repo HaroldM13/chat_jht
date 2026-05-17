@@ -1,0 +1,6 @@
+[submodule "backend_chat"]
+	path = backend_chat
+	url = https://github.com/HaroldM13/backend_chat.git
+[submodule "frontend_chat"]
+	path = frontend_chat
+	url = https://github.com/HaroldM13/frontend_chat.git
