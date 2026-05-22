@@ -4,6 +4,7 @@ networks:
 
 volumes:
   mongo_data:
+  uploads_data:
 
 services:
 
@@ -50,7 +51,7 @@ services:
       start_period: 30s
 
   backend:
-    build: ./backend_chat
+    image: harold02139/chat-backend:latest
     restart: unless-stopped
     networks:
       - chat_net
@@ -63,7 +64,7 @@ services:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq/
     volumes:
-      - ./backend_chat/uploads:/app/uploads
+      - uploads_data:/app/uploads
     depends_on:
       mongodb:
         condition: service_healthy
@@ -73,11 +74,7 @@ services:
         condition: service_healthy
 
   frontend:
-    build:
-      context: ./frontend_chat
-      args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
-        VITE_WS_URL: ${VITE_WS_URL:-ws://localhost:8000}
+    image: harold02139/chat-frontend:latest
     restart: unless-stopped
     networks:
       - chat_net

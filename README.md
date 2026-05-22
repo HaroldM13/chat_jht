@@ -31,24 +31,19 @@ docker compose version
 
 ## Paso 1 — Clonar el repositorio
 
-El repo usa submódulos de Git (backend y frontend son repos separados). El flag `--recurse-submodules` los clona todos juntos en un solo comando.
+Las imágenes del backend y frontend ya están publicadas en DockerHub y se descargan automáticamente. Solo necesitás el `docker-compose.yml` y el `.env`, así que el clone es simple:
 
 **Linux / Mac / WSL:**
 ```bash
-git clone --recurse-submodules https://github.com/HaroldM13/chat_jht.git
+git clone https://github.com/HaroldM13/chat_jht.git
 cd chat_jht
 ```
 
 **Windows (PowerShell o CMD):**
 ```powershell
-git clone --recurse-submodules https://github.com/HaroldM13/chat_jht.git
+git clone https://github.com/HaroldM13/chat_jht.git
 cd chat_jht
 ```
-
-> Si ya clonaste sin `--recurse-submodules` y las carpetas `backend_chat/` y `frontend_chat/` aparecen vacías, ejecutá dentro de la carpeta:
-> ```bash
-> git submodule update --init --recursive
-> ```
 
 ---
 
@@ -76,7 +71,7 @@ copy .env.example .env
 docker compose up -d
 ```
 
-Este comando es igual en Linux, Mac y Windows. La primera vez puede tardar unos minutos mientras descarga y construye las imágenes.
+Este comando es igual en Linux, Mac y Windows. La primera vez puede tardar unos minutos mientras descarga las imágenes de DockerHub (`docker pull` ocurre automáticamente).
 
 Verificar que todo arrancó bien:
 ```bash
@@ -146,10 +141,10 @@ chat_jht/
 |---|---|---|
 | `docker: command not found` | Docker no está instalado | Instalar Docker Desktop |
 | `permission denied` al correr docker (Linux) | Usuario no está en el grupo docker | `sudo usermod -aG docker $USER` y cerrar/abrir sesión |
-| `backend_chat/` y `frontend_chat/` vacías | Se clonó sin `--recurse-submodules` | `git submodule update --init --recursive` |
 | El frontend carga pero no conecta al backend | El backend todavía está iniciando | Esperar 15 segundos y recargar |
 | Puerto 5173 u 8000 ya en uso | Otro proceso ocupa ese puerto | `docker compose down` y volver a levantar |
 | `docker compose up` falla en Windows | Docker Desktop no está corriendo | Abrir Docker Desktop y esperar que inicie |
+| `pull access denied` al levantar | La imagen no existe en DockerHub | Verificar que el CI/CD corrió exitosamente en GitHub Actions |
 
 ---
 
