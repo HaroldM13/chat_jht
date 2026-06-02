@@ -5,6 +5,7 @@ networks:
 volumes:
   mongo_data:
   uploads_data:
+  portainer_data:
 
 services:
 
@@ -102,3 +103,14 @@ services:
       - "8081:8081"
     environment:
       - REDIS_HOSTS=local:redis:6379
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    networks:
+      - chat_net
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data

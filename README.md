@@ -68,6 +68,10 @@ copy .env.example .env
 ## Paso 3 — Levantar la aplicación
 
 ```bash
+# Con make (recomendado)
+make up
+
+# O directamente con Docker Compose
 docker compose up -d
 ```
 
@@ -87,9 +91,11 @@ Todos los servicios deben aparecer con estado `running` o `Up`.
 | Servicio | URL |
 |---|---|
 | **App (chat)** | http://localhost:5173 |
+| Swagger (API docs) | http://localhost:8000/docs |
 | RabbitMQ (admin) | http://localhost:15672 — usuario: `guest` / contraseña: `guest` |
 | Redis Commander | http://localhost:8081 |
 | Dozzle (logs) | http://localhost:9999 |
+| Portainer (Docker) | http://localhost:9000 |
 
 > Si el frontend muestra errores al principio, esperá 10-15 segundos y recargá la página. El backend necesita unos segundos para conectarse a todos los servicios.
 
@@ -98,24 +104,22 @@ Todos los servicios deben aparecer con estado `running` o `Up`.
 ## Comandos útiles
 
 ```bash
-# Ver el estado de todos los contenedores
+make up        # levantar todos los servicios
+make down      # detener (datos conservados)
+make restart   # reiniciar todos los servicios
+make logs      # ver logs en tiempo real
+make ps        # ver estado de los contenedores
+make clean     # detener y borrar todos los datos
+```
+
+O con Docker Compose directamente:
+
+```bash
 docker compose ps
-
-# Ver logs en tiempo real
-docker compose logs -f
-
-# Ver logs de un servicio específico
 docker compose logs -f backend
 docker compose logs -f frontend
-
-# Detener todo (los datos se conservan)
-docker compose down
-
-# Detener y borrar todos los datos
-docker compose down -v
-
-# Reiniciar un servicio
 docker compose restart backend
+docker compose down -v
 ```
 
 ---
